@@ -1,9 +1,10 @@
-import 'package:firstapp/quoteCard.dart';
 import 'package:flutter/material.dart';
 import 'quoteObject.dart';
 import 'home.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  QuoteProvider();
   runApp(MyApp());
 }
 

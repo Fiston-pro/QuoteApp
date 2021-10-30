@@ -14,6 +14,7 @@ class QuoteCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0) ,
       color: Colors.transparent,
+      shadowColor: Colors.black,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

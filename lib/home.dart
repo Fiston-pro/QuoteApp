@@ -11,11 +11,24 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
 
+  QuoteProvider dbService = QuoteProvider();
+
   List<Quote> quotes = [
     Quote('Legend have fiston will finish the app','Fiston the gr8'),
     Quote('Stay Hungry, Stay Foolish','Steve Jobs'),
     Quote('An eye for an eye, makes the whole world blind', 'Ghandhi')
   ];
+
+  void setUpQuotes() async{
+    
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setUpQuotes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,5 +62,7 @@ class _homeState extends State<home> {
 
   }
 }
+
+
 
 
