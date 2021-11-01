@@ -72,7 +72,11 @@ class _homeState extends State<home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-                await showInformationDialog(context);
+          Quote newQuote = await showInformationDialog(context);
+          setState(() {
+            quotes.insert(0,newQuote);
+          });
+                
               },
         child: Icon(Icons.add,),
         backgroundColor: Colors.black12,
@@ -83,7 +87,7 @@ class _homeState extends State<home> {
   }
 
   // function for the dialog
-  Future<void> showInformationDialog(BuildContext context) async {
+  Future<Quote> showInformationDialog(BuildContext context) async {
     return await showDialog(
         context: context,
         builder: (context) {
@@ -150,15 +154,12 @@ class _homeState extends State<home> {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       // Do something like updating SharedPreferences or User Settings etc.
-                      // Set author and quote
-                      setState(() {
-                        quotes.insert(0,Quote(_textEditingQuote.text, _textEditingAuthor.text));
-                        _textEditingAuthor.text = "";
-                        _textEditingQuote.text = "";
+                      // make a quote object with author and quote
+                      Quote newQuote = new Quote(_textEditingQuote.text, _textEditingAuthor.text);
+                      _textEditingAuthor.text = "";
+                      _textEditingQuote.text = "";
 
-                      });
-
-                      Navigator.pop(context);
+                      Navigator.pop(context, newQuote);
                     }
                   },
                 ),
