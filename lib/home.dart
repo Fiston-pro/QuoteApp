@@ -20,11 +20,7 @@ class _homeState extends State<home> {
   final TextEditingController _textEditingQuote = TextEditingController();
 
 
-  List<Quote> quotes = [
-    Quote('Legend have fiston will finish the app','Fiston the gr8'),
-    Quote('Stay Hungry, Stay Foolish','Steve Jobs'),
-    Quote('An eye for an eye, makes the whole world blind', 'Ghandhi')
-  ];
+  List<Quote> quotes = [];
 
   void setUpQuotes() async{
     
@@ -49,19 +45,28 @@ class _homeState extends State<home> {
                 fontSize: 23, color: Colors.white),),
       ),
       body: Container(
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/steve_jobs.jpeg"),
                 fit: BoxFit.cover)),
         child: SafeArea(
           child: Column(
-            children: 
-            quotes.map((quote) => QuoteCard(quote: quote,delete: (){
-              setState(() {
-                quotes.remove(quote);
-              });
-            } )
-          ).toList()
+            children: [
+              SizedBox(height: 30,),
+              //Text('Your are Welcome back Fiston 💜', style: TextStyle(color: Colors.white54,fontWeight: FontWeight.w700,fontSize: 20),),
+              SizedBox(height: 30,),
+              Column(
+                children: 
+                quotes.map((quote) => QuoteCard(quote: quote,delete: (){
+                  setState(() {
+                    quotes.remove(quote);
+                  });
+                } )
+              ).toList()
+              ),
+            ],
           ),
         ),
       ),
@@ -70,9 +75,10 @@ class _homeState extends State<home> {
                 await showInformationDialog(context);
               },
         child: Icon(Icons.add,),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.black12,
       ),
       );
+      
 
   }
 
@@ -96,6 +102,10 @@ class _homeState extends State<home> {
                           return value!.isNotEmpty ? null : "Enter an author";
                         },
                         maxLength: 20,
+                        cursorColor: Colors.black,
+                        style: TextStyle(
+                          color: Colors.black
+                        ),
                         decoration:
                             InputDecoration(
                               hintText: "Author",
@@ -118,7 +128,7 @@ class _homeState extends State<home> {
                         maxLines: 5,
                         cursorColor: Colors.black,
                         style: TextStyle(
-                          color: Colors.white
+                          color: Colors.black
                         ),
                         decoration: InputDecoration(
                           hintText: "Quote",
@@ -136,11 +146,19 @@ class _homeState extends State<home> {
               title: Text('New Quote', style: TextStyle(color: Colors.white),),
               actions: <Widget>[
                 InkWell(
-                  child: Text('OK   ',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,letterSpacing: 1),),
+                  child: Text('OK    ',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,letterSpacing: 1),),
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       // Do something like updating SharedPreferences or User Settings etc.
-                      Navigator.of(context).pop();
+                      // Set author and quote
+                      setState(() {
+                        quotes.insert(0,Quote(_textEditingQuote.text, _textEditingAuthor.text));
+                        _textEditingAuthor.text = "";
+                        _textEditingQuote.text = "";
+
+                      });
+
+                      Navigator.pop(context);
                     }
                   },
                 ),
