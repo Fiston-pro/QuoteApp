@@ -1,6 +1,6 @@
 import 'package:firstapp/quoteCard.dart';
+import 'package:firstapp/quoteObject.dart';
 import 'package:flutter/material.dart';
-import 'quoteObject.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -23,19 +23,21 @@ class _homeState extends State<home> {
   List<Quote> quotes = [];
 
   void setUpQuotes() async{
-    
+    quotes = (await dbService.getQuote())!;
   }
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setUpQuotes();
+    //setUpQuotes();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar:true ,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -73,9 +75,12 @@ class _homeState extends State<home> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Quote newQuote = await showInformationDialog(context);
+          // Save to database
+          //Quote dbQuote = await dbService.insertQuote(newQuote);
           setState(() {
-            quotes.insert(0,newQuote);
+            quotes.insert(0, newQuote);
           });
+          //saveQuote(newQuote);
                 
               },
         child: Icon(Icons.add,),
@@ -91,7 +96,6 @@ class _homeState extends State<home> {
     return await showDialog(
         context: context,
         builder: (context) {
-          bool isChecked = false;
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               backgroundColor: Colors.black87,

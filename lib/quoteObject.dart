@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'quoteObject.dart';
 
 
-final String QouteDb = 'Quotes';
+final String qouteDb = 'Quotes';
 final String columnId = '_id';
 final String columnQuote = 'quote';
 final String columnAuthor = 'author';
@@ -17,14 +17,11 @@ final String columnAuthor = 'author';
 class Quote {
   String quote = '';
   String author = '';
-  late int id;
+  late int? id;
 
 
-  Quote (String quote, String author){
-    this.quote = quote;
-    this.author = author;
+  Quote (this.quote, this.author, [this.id]);
 
-  }
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       columnQuote: quote,
@@ -45,7 +42,7 @@ class Quote {
 
 class QuoteProvider {
   static final QuoteProvider _instance = QuoteProvider._internal();
-  late Database db;
+  late Database database;
 
   factory QuoteProvider() {
     return _instance;
@@ -56,13 +53,13 @@ class QuoteProvider {
   }
 
    initDatabase() async {
-    db = openDatabase(
-      join(await getDatabasesPath(), '$QouteDb.db'),
+    database = openDatabase(
+      join(await getDatabasesPath(), '$qouteDb.db'),
       // When the database is first created, create a table to store data.
       onCreate: (db, version) {
         db.execute(
           '''
-            create table $QouteDb ( 
+            create table $qouteDb ( 
               $columnId integer primary key autoincrement, 
               $columnQuote text not null,
               $columnAuthor author not null)
@@ -76,27 +73,34 @@ class QuoteProvider {
   }
 
 
-  Future<Quote> insert(Quote Quote) async {
-    Quote.id = await db.insert(QouteDb, Quote.toMap());
+  Future<Quote> insertQuote(Quote Quote) async {
+    Database db = await database;
+    Quote.id = await db.insert(qouteDb, Quote.toMap());
     return Quote;
   }
 
-  Future<Quote?> getQuote(int id) async {
-    List<Map> maps = await db.query('$QouteDb');
+  Future<List<Quote>?> getQuote() async {
+    Database db = await database;
+    List<Map> maps = await db.rawQuery('SELECT * FROM Test');
     if (maps.length > 0) {
-      return Quote.fromMap(maps.first);
+      return List.generate(maps.length, (i) {
+        return Quote(maps[i]['quote'], maps[i]['author'], maps[i]['id']);
+  });
+
     }
     return null;
   }
 
-  Future<int> delete(int id) async {
-    return await db.delete(QouteDb, where: '$columnId = ?', whereArgs: [id]);
+  Future<int> deleteQuote(int id) async {
+    Database db = await database;
+    return await db.delete(qouteDb, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  Future<int> update(Quote Quote) async {
-    return await db.update(QouteDb, Quote.toMap(),
+  Future<int> updateQuote(Quote Quote) async {
+    Database db = await database;
+    return await db.update(qouteDb, Quote.toMap(),
         where: '$columnId = ?', whereArgs: [Quote.id]);
   }
 
-  Future close() async => db.close();
+  Future close() async => database.close();
 }
