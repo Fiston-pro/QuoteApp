@@ -57,7 +57,7 @@ class _homeState extends State<home> {
           child: Column(
             children: [
               SizedBox(height: 30,),
-              //Text('Your are Welcome back Fiston 💜', style: TextStyle(color: Colors.white54,fontWeight: FontWeight.w700,fontSize: 20),),
+              //Text('Your are Welcome 💜', style: TextStyle(color: Colors.white54,fontWeight: FontWeight.w700,fontSize: 20),),
               SizedBox(height: 30,),
               Column(
                 children: 
@@ -107,7 +107,7 @@ class _homeState extends State<home> {
                       TextFormField(
                         controller: _textEditingAuthor,
                         validator: (value) {
-                          return value!.isNotEmpty ? null : "Enter an author";
+                          return value!.isNotEmpty ? null : "Enter author";
                         },
                         maxLength: 20,
                         cursorColor: Colors.black,
