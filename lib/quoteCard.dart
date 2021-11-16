@@ -21,7 +21,7 @@ class QuoteCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text('${quote.quote}', style: TextStyle(fontWeight: FontWeight.w600,
-                fontSize: 16, color: Colors.white)),
+                fontSize: 30, color: Colors.white)),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
