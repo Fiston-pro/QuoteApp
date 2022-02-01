@@ -90,7 +90,7 @@ class QuoteProvider {
     }
     return null;
   }
-
+  // delete from database
   Future<int> deleteQuote(int id) async {
     Database db = await database;
     return await db.delete(qouteDb, where: '$columnId = ?', whereArgs: [id]);
