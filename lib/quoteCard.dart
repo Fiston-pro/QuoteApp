@@ -12,7 +12,7 @@ class QuoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0) ,
+      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
       color: Colors.transparent,
       shadowColor: Colors.black,
       child: Padding(
