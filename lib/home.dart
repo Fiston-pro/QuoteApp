@@ -91,7 +91,7 @@ class _homeState extends State<home> {
 
   }
 
-  // function for the dialog
+  //function for the dialog
   Future<Quote> showInformationDialog(BuildContext context) async {
     return await showDialog(
         context: context,
