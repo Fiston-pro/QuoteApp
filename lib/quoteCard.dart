@@ -4,7 +4,7 @@ import 'quoteObject.dart';
 
 class QuoteCard extends StatelessWidget {
 
-  final Quote quote;
+  final Quote quote; //
   final VoidCallback? delete;
 
   QuoteCard({ required this.quote, required this.delete});
